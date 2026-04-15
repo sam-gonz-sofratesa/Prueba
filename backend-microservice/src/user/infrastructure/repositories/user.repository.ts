@@ -32,7 +32,7 @@ export class UserRepository implements IUserRepository {
   async update(id: string, partial: Partial<UserEntity>): Promise<UserEntity> {
     const raw = await this.prisma.user.update({
       where: { id },
-      data:  partial,
+      data: partial,
     });
     return UserMapper.toDomain(raw);
   }

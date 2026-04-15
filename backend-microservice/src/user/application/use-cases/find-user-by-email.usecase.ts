@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { IUserRepository } from '../../domain/ports/user.repository.interface';
+import type { IUserRepository } from '../../domain/ports/user.repository.interface';
 import { UserEntity } from '../../domain/entities/user.entity';
 
 @Injectable()
@@ -11,7 +11,8 @@ export class FindUserByEmailUseCase {
 
   async execute(email: string): Promise<UserEntity> {
     const user = await this.userRepo.findByEmail(email);
-    if (!user) throw new NotFoundException(`Usuario con email ${email} no encontrado`);
+    if (!user)
+      throw new NotFoundException(`Usuario con email ${email} no encontrado`);
     return user;
   }
 }

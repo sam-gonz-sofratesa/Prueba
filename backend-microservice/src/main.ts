@@ -15,7 +15,7 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(3000); // ← HTTP en puerto 3000 para Postman
+  await app.listen(3000);
 
   console.log('HTTP corriendo en http://localhost:3000');
   console.log('TCP corriendo en port 3001');

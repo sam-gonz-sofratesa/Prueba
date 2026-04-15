@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ITokenService, TokenPair } from '../../domain/ports/token.service.interface';
+import type {
+  ITokenService,
+  TokenPair,
+} from '../../domain/ports/token.service.interface';
 
 @Injectable()
 export class RefreshTokenUseCase {
@@ -14,9 +17,9 @@ export class RefreshTokenUseCase {
 
     // Emite un nuevo par de tokens con el mismo payload
     return this.tokenSvc.generateTokens({
-      sub:   payload.sub,
+      sub: payload.sub,
       email: payload.email,
-      role:  payload.role,
+      role: payload.role,
     });
   }
 }

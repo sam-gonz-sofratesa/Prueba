@@ -1,6 +1,6 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from '../../domain/ports/user.repository.interface';
-import { IPasswordService } from '../../../auth/domain/ports/password.service.interface';
+import type { IUserRepository } from '../../domain/ports/user.repository.interface';
+import type { IPasswordService } from '../../../auth/domain/ports/password.service.interface';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRole } from '../../domain/enums/user-role.enum';
 
@@ -27,10 +27,10 @@ export class CreateUserUseCase {
 
     return this.userRepo.create(
       new UserEntity({
-        email:        input.email,
+        email: input.email,
         passwordHash,
-        role:         input.role ?? UserRole.USER,
-        isActive:     true,
+        role: input.role ?? UserRole.USER,
+        isActive: true,
       }),
     );
   }

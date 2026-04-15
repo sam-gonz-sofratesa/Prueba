@@ -1,6 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateUserUseCase, CreateUserInput } from '../../../user/application/use-cases/create-user.usecase';
-import { ITokenService, TokenPair } from '../../domain/ports/token.service.interface';
+import {
+  CreateUserUseCase,
+  CreateUserInput,
+} from '../../../user/application/use-cases/create-user.usecase';
+import type {
+  ITokenService,
+  TokenPair,
+} from '../../domain/ports/token.service.interface';
 
 @Injectable()
 export class RegisterUseCase {
@@ -14,9 +20,9 @@ export class RegisterUseCase {
     const user = await this.createUser.execute(input);
 
     return this.tokenSvc.generateTokens({
-      sub:   user.id!,
+      sub: user.id!,
       email: user.email,
-      role:  user.role,
+      role: user.role,
     });
   }
 }
