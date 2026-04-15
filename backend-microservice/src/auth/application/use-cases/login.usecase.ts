@@ -7,7 +7,7 @@ import type {
 } from '../../domain/ports/token.service.interface';
 
 export interface LoginInput {
-  email: string;
+  codigo_empleado: string;
   password: string;
 }
 
@@ -23,7 +23,7 @@ export class LoginUseCase {
   ) {}
 
   async execute(input: LoginInput): Promise<TokenPair> {
-    const user = await this.userRepo.findByEmail(input.email);
+    const user = await this.userRepo.findByCodigo(input.codigo_empleado);
     if (!user || !user.isActive)
       throw new UnauthorizedException('Credenciales inválidas');
 
@@ -35,8 +35,8 @@ export class LoginUseCase {
 
     return this.tokenSvc.generateTokens({
       sub: user.id!,
-      email: user.email,
-      role: user.role,
+      email: user.codigo_empleado, // usamos codigo_empleado como identificador en el payload
+      role: 'USER',
     });
   }
 }
