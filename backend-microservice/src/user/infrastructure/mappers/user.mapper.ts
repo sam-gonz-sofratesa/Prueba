@@ -1,6 +1,16 @@
-import { User as PrismaUser } from '@prisma/client';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRole } from '../../domain/enums/user-role.enum';
+
+// Tipo local para no depender del cliente Prisma generado en tiempo de compilacion
+type PrismaUser = {
+  id:           string;
+  email:        string;
+  passwordHash: string;
+  role:         string;
+  isActive:     boolean;
+  createdAt:    Date;
+  updatedAt:    Date;
+};
 
 export class UserMapper {
   static toDomain(raw: PrismaUser): UserEntity {
