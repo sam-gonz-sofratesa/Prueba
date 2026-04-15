@@ -17,12 +17,13 @@ import { AuditLogRepository } from './infrastructure/repositories/audit-log.repo
 import { AuditMiddleware } from './infrastructure/middleware/audit.middleware';
 import { ArchiveAuditTask } from './infrastructure/tasks/archive-audit.task';
 import { AuditLogController } from './audit_log.controller';
+import { AuditLogHttpController } from './interfaces/controllers/audit-log-http.controller';
 
 // Interfaces
 
 @Module({
   imports: [PrismaModule, ClsModule, ScheduleModule.forRoot()],
-  controllers: [AuditLogController],
+  controllers: [AuditLogController, AuditLogHttpController],
   providers: [
     {
       provide: 'IAuditLogRepository',
