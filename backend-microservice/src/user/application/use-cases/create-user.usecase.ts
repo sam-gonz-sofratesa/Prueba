@@ -22,7 +22,9 @@ export class CreateUserUseCase {
     private readonly passwordSvc: IPasswordService,
   ) {}
 
-  async execute(input: CreateUserInput): Promise<UserEntity> {
+  async execute(
+    input: CreateUserInput,
+  ): Promise<Omit<UserEntity, 'passwordHash'>> {
     const existsByCodigo = await this.userRepo.findByCodigo(
       input.codigo_empleado,
     );
@@ -40,7 +42,7 @@ export class CreateUserUseCase {
 
     const passwordHash = await this.passwordSvc.hash(input.password);
 
-    return this.userRepo.create(
+    const user = await this.userRepo.create(
       new UserEntity({
         nombre_apellido: input.nombre_apellido,
         codigo_empleado: input.codigo_empleado,
@@ -51,5 +53,8 @@ export class CreateUserUseCase {
         isActive: input.isActive ?? true,
       }),
     );
+
+    const { passwordHash: _, ...rest } = user;
+    return rest;
   }
 }
