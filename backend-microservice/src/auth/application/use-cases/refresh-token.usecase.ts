@@ -1,8 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type {
-  ITokenService,
-  TokenPair,
-} from '../../domain/ports/token.service.interface';
+import { ITokenService, TokenPair } from '../../domain/ports/token.service.interface';
 
 @Injectable()
 export class RefreshTokenUseCase {
@@ -12,14 +9,11 @@ export class RefreshTokenUseCase {
   ) {}
 
   async execute(refreshToken: string): Promise<TokenPair> {
-    // Verifica el refresh token — lanza UnauthorizedException si es inválido
     const payload = this.tokenSvc.verifyRefreshToken(refreshToken);
 
-    // Emite un nuevo par de tokens con el mismo payload
     return this.tokenSvc.generateTokens({
-      sub: payload.sub,
-      email: payload.email,
-      role: payload.role,
+      sub:             payload.sub,
+      codigo_empleado: payload.codigo_empleado,
     });
   }
 }

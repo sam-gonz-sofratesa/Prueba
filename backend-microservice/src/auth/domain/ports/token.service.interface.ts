@@ -1,11 +1,10 @@
 export interface JwtPayload {
-  sub: string;    // userId
-  email: string;
-  role: string;
+  sub:             string;  // userId (MongoDB ObjectId)
+  codigo_empleado: string;  // identificador del empleado
 }
 
 export interface TokenPair {
-  accessToken: string;
+  accessToken:  string;
   refreshToken: string;
 }
 
