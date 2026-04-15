@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+// ─── Audit Log ───────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  entityName String
+  entityId   String?
+  action     String
+  userId     String?
+  before     Json?
+  after      Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityName, entityId, createdAt])
+  @@map("audit_logs")
+}
+
+model AuditLogArchive {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  entityName String
+  entityId   String?
+  action     String
+  userId     String?
+  before     Json?
+  after      Json?
+  createdAt  DateTime
+
+  @@index([entityName, entityId, createdAt])
+  @@map("audit_logs_archive")
+}

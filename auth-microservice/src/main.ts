@@ -1,8 +1,25 @@
+// src/main.ts
+
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  // App híbrida: HTTP + microservicio TCP
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.TCP,
+    options: { host: '0.0.0.0', port: 3001 },
+  });
+
+  await app.startAllMicroservices();
+  await app.listen(3000);
+
+  console.log('HTTP corriendo en http://localhost:3000');
+  console.log('TCP corriendo en port 3001');
+  console.log('>>> DATABASE_URL:', process.env.DATABASE_URL);
 }
+
 bootstrap();
