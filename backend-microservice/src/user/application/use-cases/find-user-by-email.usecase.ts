@@ -3,15 +3,15 @@ import { IUserRepository } from '../../domain/ports/user.repository.interface';
 import { UserEntity } from '../../domain/entities/user.entity';
 
 @Injectable()
-export class FindUserByEmailUseCase {
+export class FindUserByCodigoUseCase {
   constructor(
     @Inject('IUserRepository')
     private readonly userRepo: IUserRepository,
   ) {}
 
-  async execute(email: string): Promise<UserEntity> {
-    const user = await this.userRepo.findByEmail(email);
-    if (!user) throw new NotFoundException(`Usuario con email ${email} no encontrado`);
+  async execute(codigo_empleado: string): Promise<UserEntity> {
+    const user = await this.userRepo.findByCodigo(codigo_empleado);
+    if (!user) throw new NotFoundException(`Usuario con código ${codigo_empleado} no encontrado`);
     return user;
   }
 }

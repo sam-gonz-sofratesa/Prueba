@@ -15,8 +15,8 @@ export class RegisterUseCase {
 
     return this.tokenSvc.generateTokens({
       sub:   user.id!,
-      email: user.email,
-      role:  user.role,
+      email: user.codigo_empleado,  // usamos codigo_empleado como identificador en el payload
+      role:  'USER',
     });
   }
 }
