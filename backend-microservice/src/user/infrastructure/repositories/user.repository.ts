@@ -16,16 +16,17 @@ export class UserRepository implements IUserRepository {
   }
 
   async findById(id: string): Promise<UserEntity | null> {
-    const raw = await this.prisma.user.findUnique({
-      where: { id },
-    });
+    const raw = await this.prisma.user.findUnique({ where: { id } });
     return raw ? UserMapper.toDomain(raw) : null;
   }
 
-  async findByEmail(email: string): Promise<UserEntity | null> {
-    const raw = await this.prisma.user.findUnique({
-      where: { email },
-    });
+  async findByCodigo(codigo_empleado: string): Promise<UserEntity | null> {
+    const raw = await this.prisma.user.findUnique({ where: { codigo_empleado } });
+    return raw ? UserMapper.toDomain(raw) : null;
+  }
+
+  async findByNumeroIdentificacion(numero_identificacion: string): Promise<UserEntity | null> {
+    const raw = await this.prisma.user.findUnique({ where: { numero_identificacion } });
     return raw ? UserMapper.toDomain(raw) : null;
   }
 

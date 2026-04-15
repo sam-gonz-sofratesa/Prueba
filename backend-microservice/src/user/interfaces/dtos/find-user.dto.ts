@@ -1,12 +1,11 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class FindUserByIdDto {
   @IsString()
   id: string;
 }
 
-export class FindUserByEmailDto {
+export class FindUserByCodigoDto {
   @IsString()
-  @IsOptional()
-  email: string;
+  codigo_empleado: string;
 }

@@ -2,12 +2,15 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import type { IUserRepository } from '../../domain/ports/user.repository.interface';
 import type { IPasswordService } from '../../../auth/domain/ports/password.service.interface';
 import { UserEntity } from '../../domain/entities/user.entity';
-import { UserRole } from '../../domain/enums/user-role.enum';
 
 export interface CreateUserInput {
-  email: string;
+  nombre_apellido: string;
+  codigo_empleado: string;
+  sexo: string;
+  tipo_identificacion: string;
+  numero_identificacion: string;
   password: string;
-  role?: UserRole;
+  isActive?: boolean;
 }
 
 @Injectable()
@@ -20,17 +23,32 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(input: CreateUserInput): Promise<UserEntity> {
-    const exists = await this.userRepo.findByEmail(input.email);
-    if (exists) throw new ConflictException('El email ya está registrado');
+    const existsByCodigo = await this.userRepo.findByCodigo(
+      input.codigo_empleado,
+    );
+    if (existsByCodigo)
+      throw new ConflictException('El código de empleado ya está registrado');
+
+    const existsByIdentificacion =
+      await this.userRepo.findByNumeroIdentificacion(
+        input.numero_identificacion,
+      );
+    if (existsByIdentificacion)
+      throw new ConflictException(
+        'El número de identificación ya está registrado',
+      );
 
     const passwordHash = await this.passwordSvc.hash(input.password);
 
     return this.userRepo.create(
       new UserEntity({
-        email: input.email,
+        nombre_apellido: input.nombre_apellido,
+        codigo_empleado: input.codigo_empleado,
+        sexo: input.sexo,
+        tipo_identificacion: input.tipo_identificacion,
+        numero_identificacion: input.numero_identificacion,
         passwordHash,
-        role: input.role ?? UserRole.USER,
-        isActive: true,
+        isActive: input.isActive ?? true,
       }),
     );
   }
